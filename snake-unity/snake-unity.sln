@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{1F79F411-D4A5-D465-FC75-F9E1702A6A6B}") = "snake-unity", "Assembly-CSharp.csproj", "{5994AD3D-0F76-E8F5-EBE2-E38FA732956D}"
+EndProject
+Project("{1F79F411-D4A5-D465-FC75-F9E1702A6A6B}") = "snake-unity", "Assembly-CSharp-Editor.csproj", "{5520C8DE-C143-184B-CF89-2DDE5F3F246B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5994AD3D-0F76-E8F5-EBE2-E38FA732956D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5994AD3D-0F76-E8F5-EBE2-E38FA732956D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5994AD3D-0F76-E8F5-EBE2-E38FA732956D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5994AD3D-0F76-E8F5-EBE2-E38FA732956D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5520C8DE-C143-184B-CF89-2DDE5F3F246B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5520C8DE-C143-184B-CF89-2DDE5F3F246B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5520C8DE-C143-184B-CF89-2DDE5F3F246B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5520C8DE-C143-184B-CF89-2DDE5F3F246B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
