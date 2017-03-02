@@ -136,13 +136,17 @@ namespace Snake
 			return true;
 		}
 
-		bool CheckGameOver(List<SnakeData> snakeDataList){
-			if(snakeDataList[0].x>=GlobalVar.LENGTH/GlobalVar.EACH_LENGTH || MoveDirection == Direction.DOWN){
-				return false;
-			}
-			 
+		bool CheckGameOver(List<SnakeData> snakeDataList){ 
 
-			return true;
+			if(snakeDataList[0].x>=GlobalVar.LENGTH/2/GlobalVar.EACH_LENGTH || snakeDataList[0].x<=-GlobalVar.LENGTH/2/GlobalVar.EACH_LENGTH){
+				return true;
+			}
+
+			if(snakeDataList[0].y>=GlobalVar.WIDTH/2/GlobalVar.EACH_LENGTH || snakeDataList[0].y<=-GlobalVar.WIDTH/2/GlobalVar.EACH_LENGTH){
+				return true;
+			}
+
+			return false;
 		}
 
 
