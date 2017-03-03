@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Snake
 {
 	public class Game : MonoBehaviour
 	{
+		[SerializeField]GameObject mSnakeGroup,mFoodGroup;
 		List<SnakeData> SnakeDataList = new List<SnakeData>();
 
 		private Direction MoveDirection;
+		bool gameStart = false;
 		void Start(){
 
 			// 初始化数据;
 			SnakeDataList.Clear ();
-			SnakeDataList.Add (new SnakeData(0,0,0));
-			SnakeDataList.Add (new SnakeData(1,1,0));
-			SnakeDataList.Add (new SnakeData(2,2,0));
+			SnakeDataList.Add (new SnakeData(SnakeData.SType.SNAKE,0,0));
+			SnakeDataList.Add (new SnakeData(SnakeData.SType.SNAKE,1,0));
+			SnakeDataList.Add (new SnakeData(SnakeData.SType.SNAKE,2,0));
 
 			// 载入数据;
 			UpdateSnake(SnakeDataList);
@@ -22,6 +25,10 @@ namespace Snake
 			// 初始移动;
 			Move (Direction.DOWN);
 
+			// 随机食物;
+			UpdateFood (SnakeDataList);
+
+			gameStart = true;
 		}
 
 		SnakeData GetNextSnakeData(Direction moveDir){
@@ -50,8 +57,32 @@ namespace Snake
 			return snakeData;
 		}
 
+		Pos GetRandomFood(List<SnakeData> snakeDataList){
+			int min = -GlobalVar.LENGTH/GlobalVar.EACH_LENGTH / 2+1;
+			int max=GlobalVar.WIDTH/GlobalVar.EACH_LENGTH/2;
+			int randomX = 0,randomY=0;
+			do{
+				randomX = UnityEngine.Random.Range(min,max);
+				Debug.Log("randomX: "+randomX);
+			}while(snakeDataList.FirstOrDefault(s=>s.x==randomX)!=null);
+				
+			do{
+				randomY = UnityEngine.Random.Range(min,max);
+				Debug.Log("randomY: "+randomY);
+			
+			}while(snakeDataList.FirstOrDefault(s=>s.y==randomY)!=null);
+
+			return new Pos (randomX,randomY);
+		}
+
+
+
 		float moveTime = 0f;
 		void Update(){
+
+			if(!gameStart){
+				return;
+			}
 
 			moveTime += Time.deltaTime;
 			if(moveTime>1f){
@@ -83,7 +114,7 @@ namespace Snake
 			}
 
 			// 载入数据;
-			NGUITools.DestroyChildren (transform);
+			NGUITools.DestroyChildren (mSnakeGroup.transform);
 			for(int i=0;i<snakeDataList.Count;++i){
 				var x = snakeDataList [i].x;
 				var y = snakeDataList [i].y;
@@ -92,10 +123,27 @@ namespace Snake
 				snake.SetActive (true);
 
 				snake.name = string.Format ("{0},{1},{2}",i,x,y);
-				snake.transform.parent = gameObject.transform;
+				snake.transform.parent = mSnakeGroup.transform;
 				snake.transform.localScale = Vector3.one;
 				snake.transform.localPosition = new Vector3 (x*GlobalVar.EACH_LENGTH,y*GlobalVar.EACH_LENGTH);
 			}
+		}
+
+		Food mFood = null;
+		void UpdateFood(List<SnakeData> snakeDataList){
+			
+			var Vec = GetRandomFood (snakeDataList);
+
+			var snake = Instantiate(Resources.Load (GlobalVar.SNAKE_PATH)) as GameObject;
+			snake.SetActive (true);
+
+			snake.name = string.Format ("Food: {0},{1}",Vec.x,Vec.y);
+			snake.transform.parent = mFoodGroup.transform;
+			snake.transform.localScale = Vector3.one;
+			snake.transform.localPosition = new Vector3 (Vec.x*GlobalVar.EACH_LENGTH,Vec.y*GlobalVar.EACH_LENGTH);
+			mFood = snake.AddComponent<Food> ();
+			mFood.x = Vec.x;
+			mFood.y = Vec.y;
 		}
 
 		void Move(Direction direction){
@@ -109,10 +157,20 @@ namespace Snake
 
 			var nextData = GetNextSnakeData (direction);
 			if(nextData!=null){
-				SnakeDataList.RemoveAt (SnakeDataList.Count-1);
+				var eatFood = (mFood != null && nextData.x == mFood.x && nextData.y == mFood.y);
+				Debug.Log ("nextData: "+eatFood+ nextData.x+","+nextData.y);	
+				if (!eatFood) {
+					SnakeDataList.RemoveAt (SnakeDataList.Count - 1);
+				} else {
+					GameObject.Destroy (mFood.gameObject);
+				}
 				SnakeDataList.Insert (0,nextData);
 
 				UpdateSnake (SnakeDataList);
+
+				if(eatFood){
+					UpdateFood (SnakeDataList);
+				}
 			}
 		}
 
@@ -181,21 +239,6 @@ namespace Snake
 		RIGHT,
 	}
 
-	public class SnakeData{
-		public int x;
-		public int y;
-		public int index; 
 
-		public SnakeData(int index,int x,int y){
-			this.index = index;
-			this.x = x;
-			this.y = y;
-		}
-		public SnakeData(){
-			this.index = 0;
-			this.x = 0;
-			this.y = 0;
-		}
-	}
 }
 

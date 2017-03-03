@@ -150,8 +150,10 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\Scripts\Food.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GlobalVar.cs" />
+     <Compile Include="Assets\Scripts\SnakeData.cs" />
      <None Include="Assets\NGUI\ReadMe - 3.9.1.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
